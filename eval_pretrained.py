@@ -1,5 +1,28 @@
+from __future__ import print_function
 import tensorflow as tf
-from tensorflow.python.training import moving_averages
+import numpy as np
+import scipy.io
+import scipy.misc
+from PIL import Image, ImageOps, ImageFile
+import sys
+
+
+def get_resized_image(img_path, height, width):
+    image = Image.open(img_path)
+    # it's because PIL is column major so you have to change place of width and height
+    # this is stupid, i know
+    ImageFile.LOAD_TRUNCATED_IMAGES = True
+    image = ImageOps.fit(image, (width, height), Image.ANTIALIAS)
+    image = np.asarray(image, np.float32)
+    return np.expand_dims(image, 0)
+
+def save_image(path, image):
+    # Output should add back the mean pixels we subtracted at the beginning
+    image = image[0]  # the image
+    image = np.clip(image, 0, 255).astype(np.uint8)
+    scipy.misc.imsave(path, image)
+
+
 
 def conv2d(x, input_channel, output_channel, kernel_size, stride, mode='REFLECT'):
     with tf.variable_scope('conv'):
@@ -59,39 +82,6 @@ def instance_norm(input_tensor):
     mean, var = tf.nn.moments(input_tensor, [1, 2], keep_dims=True)
     res = tf.div(tf.subtract(input_tensor, mean), tf.sqrt(tf.add(var, epsilon)))
     return res
-
-
-def batch_norm(input_tensor, is_training, eps=0.0001, decay=0.9, affine=True, name=None):
-    with tf.variable_scope(name, default_name='batch_norm'):
-        shape = tf.shape(input_tensor)
-        with tf.Session() as sess:
-            shape = sess.run(shape)
-        param_shape = shape[-1:]
-
-        moving_mean = tf.get_variable('mean', param_shape, initializer=tf.zeros_initializer, trainable=False,
-                                      dtype=tf.float32)
-        moving_variance = tf.get_variable('variance', param_shape, initializer=tf.ones_initializer, trainable=False,
-                                          dtype=tf.float32)
-
-        def mean_var_with_update():
-            mean, variance = tf.nn.moments(input_tensor, [0, 1, 2], name='moments')
-            with tf.control_dependencies([moving_averages.assign_moving_average(moving_mean, mean, decay),
-                                          moving_averages.assign_moving_average(moving_variance, variance, decay)]):
-                return tf.identity(mean), tf.identity(variance)
-
-        mean, variance = tf.cond(is_training, mean_var_with_update, lambda: (moving_mean, moving_variance))
-
-        if affine:
-            beta = tf.get_variable('beta', param_shape,
-                                   initializer=tf.zeros_initializer, dtype=tf.float32)
-            gamma = tf.get_variable('gamma', param_shape,
-                                    initializer=tf.ones_initializer, dtype=tf.float32)
-            output_tensor = tf.nn.batch_normalization(input_tensor, mean, variance, beta, gamma, eps)
-        else:
-            output_tensor = tf.nn.batch_normalization(input_tensor, mean, variance, None, None, eps)
-
-        return output_tensor
-
 
 
 def residual(input_tensor, input_channel, kernel_size=3, stride=1):
@@ -160,3 +150,27 @@ def transform_net(input_image, tarining=True):
     return y
 
 
+
+
+image_path = 'content_test/001.jpg'
+output_path = 'result/' + image_path[13:]
+style = 'pretrained_model/style23'
+
+
+def eval_pretrained(image_path, output_path, style):
+
+    input_image = get_resized_image(image_path, 960, 1280)
+    output_image = transform_net(input_image)
+    saver = tf.train.Saver()
+
+    with tf.Session() as sess:
+        ckpt = tf.train.get_checkpoint_state(style + '/')
+        if ckpt and ckpt.model_checkpoint_path:
+            saver.restore(sess, ckpt.model_checkpoint_path)
+        res = sess.run(output_image)
+        save_image(output_path, res)
+
+if __name__ == '__main__':
+    eval_pretrained(sys.argv[1], sys.argv[2], sys.argv[3])
+    print("Finished.")
+#eval(image_path, output_path, style)
