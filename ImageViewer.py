@@ -1,15 +1,7 @@
 from PyQt5.QtWidgets import QLabel, QFileDialog, QWidget
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.Qt import Qt
-
-class newWidget(QWidget):
-
-    def __init__(self, image):
-        super(QWidget, self).__init__()
-        self.setFixedSize(image.width(), image.height())
-        self.label = QLabel(self)
-        self.label.setFixedSize(image.width(), image.height())
-        self.label.setPixmap(QPixmap.fromImage(image))
+from NewWindow import *
 
 class myImageViewer(QLabel):
 
