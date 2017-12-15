@@ -92,7 +92,7 @@ class myUserDefined(QWidget):
             print(self.style)
             self.qb2.setDisabled(True)
             self.timer.start(100, self)
-            self.ps = subprocess.Popen("python3 eval_arbitrary.py " + self.inpath + " " + self.style + " " + self.outpath, shell = True)
+            self.ps = subprocess.Popen("python3 eval_arb.py " + self.inpath + " " + self.style + " " + self.outpath, shell = True)
             self.qb2.setDisabled(True)
             self.timer.start(100, self)
 
