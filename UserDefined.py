@@ -1,5 +1,6 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QProgressBar, QLabel, QHBoxLayout, QVBoxLayout, QGroupBox, QMessageBox
+from PyQt5.QtWidgets import QWidget, QPushButton, QProgressBar, QLabel, QHBoxLayout, QVBoxLayout, QGroupBox, QMessageBox, QSpinBox, QSlider
 import ImageViewer
+from PyQt5.Qt import Qt
 from PyQt5.QtCore import QBasicTimer
 from eval_arbitrary import *
 import subprocess
@@ -33,10 +34,40 @@ class myUserDefined(QWidget):
         self.pb = QProgressBar()
         self.pb.setFixedSize(500, 10)
 
+        self.sp = QSpinBox(self)
+        #self.sp.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+        self.sl = QSlider(Qt.Vertical, self)
+        self.sp.setRange(0, 100)
+        self.sp.setSingleStep(1)
+        self.sl.setFixedSize(10, 200)
+        self.sp.setWrapping(True)
+        self.sp.setValue(0)
+        self.sp.setSuffix(" %")
+        self.sl.setRange(0, 100)
+        self.sl.setValue(0)
+        self.sp.valueChanged.connect(self.slider_changevalue)
+        self.sl.valueChanged.connect(self.spinbox_changevalue)
+        self.hboxscrollgroup = QGroupBox()
+        self.hboxscroll = QHBoxLayout()
+        self.hboxscroll.addStretch(1)
+        self.hboxscroll.addWidget(self.sl)
+        self.hboxscroll.addStretch(1)
+        self.hboxscrollgroup.setLayout(self.hboxscroll)
+        self.vboxscrollgroup = QGroupBox()
+        self.vboxscroll = QVBoxLayout()
+        self.vboxscroll.addStretch(1)
+        self.vboxscroll.addWidget(self.sp)
+        self.vboxscroll.addStretch(1)
+        self.vboxscroll.addWidget(self.hboxscrollgroup)
+        self.vboxscroll.addStretch(1)
+        self.vboxscrollgroup.setLayout(self.vboxscroll)
+
         self.hboxgroup1 = QGroupBox()
         self.hbox1 = QHBoxLayout()
         self.hbox1.addStretch(1)
         self.hbox1.addWidget(self.labelContent)
+        self.hbox1.addStretch(1)
+        self.hbox1.addWidget(self.vboxscrollgroup)
         self.hbox1.addStretch(1)
         self.hbox1.addWidget(self.labelStyle)
         self.hbox1.addStretch(1)
@@ -102,7 +133,7 @@ class myUserDefined(QWidget):
             self.qb2.setDisabled(False)
             self.step = 0
             return
-        self.step += 0.05
+        self.step += 0.4
         if self.ps.poll() is not None:
             self.step = 100
             self.labelResult.changeImage(self.outpath)
@@ -110,3 +141,9 @@ class myUserDefined(QWidget):
 
     def share(self):
         pass
+
+    def spinbox_changevalue(self,value):
+        self.sp.setValue(value)
+
+    def slider_changevalue(self,value):
+        self.sl.setValue(value)

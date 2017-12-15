@@ -555,7 +555,7 @@ QSpinBox::up-button {
     height: 12px;
     border-top-right-radius: 4px;
     border-left: 1px solid rgb(100, 100, 100);
-    image: url(:/Black/upButton);
+    color: rgb(0, 0, 0)
     background: rgb(50, 50, 50);
 }
 QSpinBox::up-button:!enabled {
@@ -570,7 +570,7 @@ QSpinBox::down-button {
     height: 12px;
     border-bottom-right-radius: 4px;
     border-left: 1px solid rgb(100, 100, 100);
-    image: url(:/Black/downButton);
+    color: rgb(0, 0, 0)
     background: rgb(50, 50, 50);
 }
 QSpinBox::down-button:!enabled {
