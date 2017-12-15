@@ -116,14 +116,13 @@ class myUserDefined(QWidget):
             return
         if not self.timer.isActive():
             self.inpath = self.labelContent.getImagePath()
-            self.outpath = "result/result.jpg"
+            self.outpath = "result/" + self.labelContent.getImageName() + "_transfered_arbitrary.jpg"
             self.style = self.labelStyle.getImagePath()
-            print(self.inpath)
-            print(self.outpath)
-            print(self.style)
+            self.width = self.labelContent.getImageWidth()
+            self.height = self.labelContent.getImageHeight()
             self.qb2.setDisabled(True)
             self.timer.start(100, self)
-            self.ps = subprocess.Popen("python3 eval_arb.py " + self.inpath + " " + self.style + " " + self.outpath, shell = True)
+            self.ps = subprocess.Popen("python3 eval_arb.py " + self.inpath + " " + self.style + " " + self.outpath + " " + str(self.height) + " " + str(self.width), shell = True)
             self.qb2.setDisabled(True)
             self.timer.start(100, self)
 

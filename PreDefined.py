@@ -155,11 +155,13 @@ class myPreDefined(QWidget):
             return
         if not self.timer.isActive():
             self.inpath = self.inputPic.getImagePath()
-            self.outpath = "result/result.jpg"
+            self.outpath = "result/" + self.inputPic.getImageName() + "_transfered_style%d.jpg"%flag
+            self.width = self.inputPic.getImageWidth()
+            self.height = self.inputPic.getImageHeight()
             self.style = self.stylePath[flag - 1]
             self.shareButton.setDisabled(True)
             self.timer.start(100, self)
-            self.ps = subprocess.Popen("python3 eval_pretrained.py " + self.inpath + " " + self.outpath + " " + self.style, shell = True)
+            self.ps = subprocess.Popen("python3 eval_pretrained.py " + self.inpath + " " + self.outpath + " " + self.style + " " + str(self.height) + " " + str(self.width), shell = True)
 
     def timerEvent(self, a):
         if self.step >= 100:
@@ -167,7 +169,7 @@ class myPreDefined(QWidget):
             self.shareButton.setDisabled(False)
             self.step = 0
             return
-        self.step += 0.2
+        self.step += 0.35
         if self.ps.poll() is not None:
             self.step = 100
             self.outputPic.changeImage(self.outpath)

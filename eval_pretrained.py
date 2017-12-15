@@ -157,9 +157,9 @@ output_path = 'result/' + image_path[13:]
 style = 'pretrained_model/style23'
 
 
-def eval_pretrained(image_path, output_path, style):
+def eval_pretrained(image_path, output_path, style, height = 560, width = 900):
 
-    input_image = get_resized_image(image_path, 960, 1280)
+    input_image = get_resized_image(image_path, height, width)
     output_image = transform_net(input_image)
     saver = tf.train.Saver()
 
@@ -171,6 +171,6 @@ def eval_pretrained(image_path, output_path, style):
         save_image(output_path, res)
 
 if __name__ == '__main__':
-    eval_pretrained(sys.argv[1], sys.argv[2], sys.argv[3])
+    eval_pretrained(sys.argv[1], sys.argv[2], sys.argv[3], int(sys.argv[4]), int(sys.argv[5]))
     print("Finished.")
 #eval(image_path, output_path, style)

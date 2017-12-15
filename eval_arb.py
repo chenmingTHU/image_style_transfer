@@ -41,5 +41,5 @@ def eval_arbitrary(content_path, style_path, output_path, height = 560, width = 
 
 if __name__ == '__main__':
     #eval_arbitrary(content_path, style_path, output_path, height=560, width=800)
-    eval_arbitrary(sys.argv[1], sys.argv[2], sys.argv[3], 560, 800)
+    eval_arbitrary(sys.argv[1], sys.argv[2], sys.argv[3], int(sys.argv[4]), int(sys.argv[5]))
     print("Finished.")
