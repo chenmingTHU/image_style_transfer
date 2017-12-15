@@ -25,6 +25,7 @@ class myImageViewer(QLabel):
         self.setFixedSize(self.width, self.height)
         self.image = self.image.scaled(self.width, self.height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.setPixmap(QPixmap.fromImage(self.image)) 
+        self.setAlignment(Qt.AlignCenter)
     
     def mousePressEvent(self, e):
         newImage = QFileDialog.getOpenFileName(self, 'open file', './', 'Images (*.png *.jpg)')[0]
@@ -36,6 +37,7 @@ class myImageViewer(QLabel):
             self.origHeight = self.image.height()
             self.image = self.image.scaled(self.width, self.height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
             self.setPixmap(QPixmap.fromImage(self.image))
+            self.setAlignment(Qt.AlignCenter)
 
     def getImagePath(self):
         return self.imagePath
@@ -63,6 +65,7 @@ class myImageResult(QLabel):
         self.setFixedSize(self.width, self.height)
         self.image = self.origImage.scaled(self.width, self.height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.setPixmap(QPixmap.fromImage(self.image))
+        self.setAlignment(Qt.AlignCenter)
         self.newWidget = newWidget(self.origImage)
     
     def mousePressEvent(self, e):
@@ -77,4 +80,5 @@ class myImageResult(QLabel):
         self.setFixedSize(self.width, self.height)
         self.image = self.origImage.scaled(self.width, self.height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.setPixmap(QPixmap.fromImage(self.image))
+        self.setAlignment(Qt.AlignCenter)
         self.newWidget = newWidget(self.origImage)
