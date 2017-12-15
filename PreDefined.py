@@ -158,6 +158,15 @@ class myPreDefined(QWidget):
             self.outpath = "result/" + self.inputPic.getImageName() + "_transfered_style%d.jpg"%flag
             self.width = self.inputPic.getImageWidth()
             self.height = self.inputPic.getImageHeight()
+            self.ratio = float(self.width) / float(self.height)
+            self.maxheight = 600
+            self.maxwidth = 800
+            if self.height > self.maxheight:
+                self.height = self.maxheight
+                self.width = int(self.height * self.ratio)
+            if self.width > self.maxwidth:
+                self.width = self.maxwidth
+                self.height = int(self.width / self.ratio)
             self.style = self.stylePath[flag - 1]
             self.shareButton.setDisabled(True)
             self.timer.start(100, self)
@@ -169,7 +178,7 @@ class myPreDefined(QWidget):
             self.shareButton.setDisabled(False)
             self.step = 0
             return
-        self.step += 0.35
+        self.step += 0.8 
         if self.ps.poll() is not None:
             self.step = 100
             self.outputPic.changeImage(self.outpath)

@@ -120,6 +120,15 @@ class myUserDefined(QWidget):
             self.style = self.labelStyle.getImagePath()
             self.width = self.labelContent.getImageWidth()
             self.height = self.labelContent.getImageHeight()
+            self.ratio = float(self.width) / float(self.height)
+            self.maxheight = 600
+            self.maxwidth = 800
+            if self.height > self.maxheight:
+                self.height = self.maxheight
+                self.width = int(self.height * self.ratio)
+            if self.width > self.maxwidth:
+                self.width = self.maxwidth
+                self.height = int(self.width / self.ratio)
             self.qb2.setDisabled(True)
             self.timer.start(100, self)
             self.ps = subprocess.Popen("python3 eval_arb.py " + self.inpath + " " + self.style + " " + self.outpath + " " + str(self.height) + " " + str(self.width), shell = True)
@@ -132,7 +141,7 @@ class myUserDefined(QWidget):
             self.qb2.setDisabled(False)
             self.step = 0
             return
-        self.step += 0.4
+        self.step += 0.35
         if self.ps.poll() is not None:
             self.step = 100
             self.labelResult.changeImage(self.outpath)
