@@ -42,6 +42,12 @@ class myImageViewer(QLabel):
 
     def getImageName(self):
         return self.name
+    
+    def getImageWidth(self):
+        return self.origWidth
+    
+    def getImageHeight(self):
+        return self.origHeight
 
 class myImageResult(QLabel):
 
