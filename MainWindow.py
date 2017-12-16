@@ -3,6 +3,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QTabWidget, QMainWindow, QApplication
 import PreDefined
 import UserDefined
+import History
 
 class myTabWidget(QTabWidget):
     
@@ -13,8 +14,10 @@ class myTabWidget(QTabWidget):
     def initUI(self):
         self.preDefined = PreDefined.myPreDefined()
         self.userDefined = UserDefined.myUserDefined()
+        self.history = History.myHistory()
         self.addTab(self.preDefined, 'Predefined')
         self.addTab(self.userDefined, 'User Defined')
+        self.addTab(self.history, 'History')
 
 class myMainWindow(QMainWindow):
 
