@@ -57,3 +57,16 @@ def watermark(image, texture, flag, x, y, size):
     dst = Image.alpha_composite(img, txt)
     return dst
 
+
+# 添加白色边框
+def border(img, factor=0.02):
+    w, h = img.size
+    dst = ImageDraw.Draw(img)
+    w_half = int(w*factor)
+    h_half = int(h*factor)
+    dst.line(((0, h_half-1), (w-1, h_half-1)), fill=(255, 255, 255), width=2*h_half)
+    dst.line(((0, h-1-h_half), (w-1, h-1-h_half)), fill=(255, 255, 255), width=2*h_half)
+    dst.line(((w_half-1, 0), (w_half-1, h-1)), fill=(255, 255, 255), width=2*w_half)
+    dst.line(((w-1-w_half, 0), (w-1-w_half, h-1)), fill=(255, 255, 255), width=2*w_half)
+    return img
+
