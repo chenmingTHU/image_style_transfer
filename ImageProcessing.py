@@ -1,4 +1,4 @@
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 
 
 # 比例 a.1:1 b.4:3 c.3:4 d.16:9 e.9:16
@@ -41,4 +41,19 @@ def im_resize(img, flag):
 # dst = ImageEnhance.Sharpness(img)
 # dst = ImageEnhance.Contrast(img)
 # dst = dst.enhance(factor)
+
+
+# 添加水印
+# flag 0:black 1:white
+def watermark(image, texture, flag, x, y, size):
+    img = image.convert('RGBA')
+    txt = Image.new('RGBA', img.size, (0, 0, 0, 0))
+    fnt = ImageFont.truetype("C:\Windows\Fonts\FTLTLT.TTF", size)
+    dst = ImageDraw.Draw(txt)
+    if flag == 0:
+        dst.text((txt.size[0] - x, txt.size[1] - y), texture, font=fnt, fill=(0, 0, 0, 255))
+    else:
+        dst.text((txt.size[0] - x, txt.size[1] - y), texture, font=fnt, fill=(255, 255, 255, 255))
+    dst = Image.alpha_composite(img, txt)
+    return dst
 
