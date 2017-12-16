@@ -45,7 +45,7 @@ def im_resize(img, flag):
 
 # 添加水印
 # flag 0:black 1:white
-def watermark(image, texture, flag, x, y, size):
+def watermark(image, texture="by 404", flag=0, x=60, y=20, size=20):
     img = image.convert('RGBA')
     txt = Image.new('RGBA', img.size, (0, 0, 0, 0))
     fnt = ImageFont.truetype("C:\Windows\Fonts\FTLTLT.TTF", size)
