@@ -4,11 +4,13 @@ from PyQt5.Qt import Qt
 from PyQt5.QtCore import QBasicTimer
 from eval_arbitrary import *
 import subprocess
+import os
 
 class myUserDefined(QWidget):
 
-    def __init__(self):
+    def __init__(self, parent):
         super(QWidget, self).__init__()
+        self.parent = parent
         self.initUI()
 
     def initUI(self):
@@ -117,6 +119,10 @@ class myUserDefined(QWidget):
         if not self.timer.isActive():
             self.inpath = self.labelContent.getImagePath()
             self.outpath = "result/" + self.labelContent.getImageName() + "_transfered_arbitrary.jpg"
+            self.outname = self.labelContent.getImageName() + "_transfered_arbitrary"
+            while os.path.exists("result/" + self.outname + ".jpg"):
+                self.outname = self.outname + "_1"
+            self.outpath = "result/" + self.outname + ".jpg"
             self.style = self.labelStyle.getImagePath()
             self.width = self.labelContent.getImageWidth()
             self.height = self.labelContent.getImageHeight()
@@ -145,6 +151,7 @@ class myUserDefined(QWidget):
         if self.ps.poll() is not None:
             self.step = 100
             self.labelResult.changeImage(self.outpath)
+            self.parent.newHistory()
         self.pb.setValue(self.step)
 
     def share(self):

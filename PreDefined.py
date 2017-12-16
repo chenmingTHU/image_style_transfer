@@ -5,6 +5,7 @@ from PyQt5.QtCore import QBasicTimer
 from ImageViewer import *
 from eval_pretrained import *
 import subprocess
+import os
 
 global flag 
 flag = 0
@@ -62,12 +63,13 @@ class preStyle(QGroupBox):
 
 class myPreDefined(QWidget):
 
-    def __init__(self):
+    def __init__(self, parent):
         super(QWidget, self).__init__()
         self.style = ["style1", "style2", "style3", "style4", "style5", "style6", "style7", "style8", "style9"]
         self.picPath = ["pics/style1.jpg", "pics/style2.jpg", "pics/style3.jpg", "pics/style4.jpg", "pics/style5.jpg", "pics/style6.jpg", "pics/style7.jpg", "pics/style8.jpg", "pics/style9.jpg"]
         self.stylePath = ["pretrained_model/style1", "pretrained_model/style2", "pretrained_model/style3", "pretrained_model/style4", "pretrained_model/style5", "pretrained_model/style6", "pretrained_model/style7", "pretrained_model/style8", "pretrained_model/style9"]
         self.nStyle = len(self.style)
+        self.parent = parent
         self.initUI()
 
     def initUI(self):
@@ -155,7 +157,10 @@ class myPreDefined(QWidget):
             return
         if not self.timer.isActive():
             self.inpath = self.inputPic.getImagePath()
-            self.outpath = "result/" + self.inputPic.getImageName() + "_transfered_style%d.jpg"%flag
+            self.outname = self.inputPic.getImageName() + "_transfered_style%d"%flag 
+            while os.path.exists("result/" + self.outname + ".jpg"):
+                self.outname = self.outname + "_1"
+            self.outpath = "result/" + self.outname + ".jpg"
             self.width = self.inputPic.getImageWidth()
             self.height = self.inputPic.getImageHeight()
             self.ratio = float(self.width) / float(self.height)
@@ -178,10 +183,11 @@ class myPreDefined(QWidget):
             self.shareButton.setDisabled(False)
             self.step = 0
             return
-        self.step += 0.8 
+        self.step += 0.7 
         if self.ps.poll() is not None:
             self.step = 100
             self.outputPic.changeImage(self.outpath)
+            self.parent.newHistory()
         self.progBar.setValue(self.step)
 
     def share(self):
