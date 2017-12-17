@@ -21,7 +21,7 @@ class myUserDefined(QWidget):
         self.labelContent = ImageViewer.myImageViewer(content, 320, 240)
         style = 'pics/default_style.png'
         self.labelStyle = ImageViewer.myImageViewer(style, 320, 240)
-        result = 'pics/default_null.png'
+        result = 'pics/default_null.jpg'
         self.labelResult = ImageViewer.myImageResult(result, 480, 360)
         self.defaultInpath = self.labelContent.getImagePath()
         self.defaultStylepath = self.labelStyle.getImagePath()
