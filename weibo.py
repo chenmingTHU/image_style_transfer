@@ -28,7 +28,7 @@ def get_token():
     return r.json()['access_token']
 
 
-def post_a_pic(news="from ImageStyleTrans", picture, token="2.00Lksp7GhIpwcCddee6e82e70NcpaD"):
+def post_a_pic(picture, news="from ImageStyleTrans", token="2.00Lksp7GhIpwcCddee6e82e70NcpaD"):
 
     url_share = "https://api.weibo.com/2/statuses/share.json"
     access_token = token
