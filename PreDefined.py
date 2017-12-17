@@ -1,11 +1,15 @@
-from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QGroupBox, QScrollArea, QPushButton, QProgressBar, QMessageBox
+from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QGroupBox, QScrollArea, QPushButton, QProgressBar, QMessageBox, QInputDialog
 from PyQt5.Qt import Qt
 from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import QBasicTimer
 from ImageViewer import *
 from eval_pretrained import *
+import weibo
 import subprocess
 import os
+from weibo import *
+import requests
+from requests_toolbelt import MultipartEncoder
 
 global flag 
 flag = 0
@@ -191,4 +195,8 @@ class myPreDefined(QWidget):
         self.progBar.setValue(self.step)
 
     def share(self):
-        pass
+        sender = self.sender()
+        if sender == self.shareButton:
+            text, ok = QInputDialog.getText(self, '分享到微博', '请输入您想说的话：')
+            if ok:
+                post_a_pic(self.outpath, text)

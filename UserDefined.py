@@ -1,10 +1,13 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QProgressBar, QLabel, QHBoxLayout, QVBoxLayout, QGroupBox, QMessageBox, QSpinBox, QSlider
+from PyQt5.QtWidgets import QWidget, QPushButton, QProgressBar, QLabel, QHBoxLayout, QVBoxLayout, QGroupBox, QMessageBox, QSpinBox, QSlider, QInputDialog
 import ImageViewer
 from PyQt5.Qt import Qt
 from PyQt5.QtCore import QBasicTimer
 from eval_arbitrary import *
 import subprocess
 import os
+from weibo import *
+import requests
+from requests_toolbelt import MultipartEncoder
 
 class myUserDefined(QWidget):
 
@@ -155,7 +158,11 @@ class myUserDefined(QWidget):
         self.pb.setValue(self.step)
 
     def share(self):
-        pass
+        sender = self.sender()
+        if sender == self.qb2:
+            text, ok = QInputDialog.getText(self, '分享到微博', '请输入您想说的话：')
+            if ok:
+                post_a_pic(self.outpath, text)
 
     def spinbox_changevalue(self,value):
         self.sp.setValue(value)
