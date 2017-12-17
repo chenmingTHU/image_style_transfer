@@ -39,6 +39,7 @@ class myHistory(QWidget):
             self.hboxgroupList[i].setLayout(self.hboxList[i])
         for i in range(int((num+1)/2)):
             self.vbox.addWidget(self.hboxgroupList[i])
+        self.vbox.addStretch(1)
         self.vboxgroup.setLayout(self.vbox)
         self.scroll = QScrollArea()
         self.scroll.setWidget(self.vboxgroup)
