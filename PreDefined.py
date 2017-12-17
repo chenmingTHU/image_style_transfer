@@ -4,7 +4,6 @@ from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import QBasicTimer
 from ImageViewer import *
 from eval_pretrained import *
-import weibo
 import subprocess
 import os
 from weibo import *
