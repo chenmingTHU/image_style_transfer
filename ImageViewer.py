@@ -66,9 +66,9 @@ class myImageResult(QLabel):
         self.image = self.origImage.scaled(self.width, self.height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.setPixmap(QPixmap.fromImage(self.image))
         self.setAlignment(Qt.AlignCenter)
-        self.newWidget = newWidget(self.origImage)
     
     def mousePressEvent(self, e):
+        self.newWidget = newWidget(self.imagePath)
         self.newWidget.show()
     
     def changeImage(self, image):
@@ -81,7 +81,6 @@ class myImageResult(QLabel):
         self.image = self.origImage.scaled(self.width, self.height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.setPixmap(QPixmap.fromImage(self.image))
         self.setAlignment(Qt.AlignCenter)
-        self.newWidget = newWidget(self.origImage)
 
 class myImageBlank(QLabel):
 
@@ -98,4 +97,3 @@ class myImageBlank(QLabel):
         self.image = self.origImage.scaled(self.width, self.height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.setPixmap(QPixmap.fromImage(self.image))
         self.setAlignment(Qt.AlignCenter)
-        self.newWidget = newWidget(self.origImage)
