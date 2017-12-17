@@ -30,65 +30,77 @@ def img_resize(img_path, flag):
 
 # 反转 左右/上下
 # dst = img.transpose(Image.FLIP_LEFT_RIGHT)
-def img_flip_left(img_path):
+def img_flip_left(img_path, out_path="temp/temp.jpg"):
     img = Image.open(img_path)
     dst = img.transpose(Image.FLIP_LEFT_RIGHT)
-    dst_path = "temp.jpg"
+    dst_path = out_path
     dst.save(dst_path)
 
 
 # dst = img.transpose(Image.FLIP_TOP_BOTTOM)
-def img_flip_up(img_path):
+def img_flip_up(img_path, out_path="temp/temp.jpg"):
     img = Image.open(img_path)
     dst = img.transpose(Image.FLIP_TOP_BOTTOM)
-    dst_path = "temp.jpg"
+    dst_path = out_path
     dst.save(dst_path)
 
 
 # 旋转 顺/逆时针
 # dst = img.transpose(Image.ROTATE_270)
-def img_rotate_cw(img_path):
+def img_rotate_cw(img_path, out_path="temp/temp.jpg"):
     img = Image.open(img_path)
     dst = img.transpose(Image.ROTATE_270)
-    dst_path = "temp.jpg"
+    dst_path = out_path
     dst.save(dst_path)
 
 
 # dst = img.transpose(Image.ROTATE_90)
-def img_rotate_ccw(img_path):
+def img_rotate_ccw(img_path, out_path="temp/temp.jpg"):
     img = Image.open(img_path)
     dst = img.transpose(Image.ROTATE_90)
-    dst_path = "temp.jpg"
+    dst_path = out_path
     dst.save(dst_path)
 
 
 # 亮度、锐利度、对比度
 # dst = ImageEnhance.Brightness(img)
-def img_enhance_brightness(img_path, factor):
+def img_enhance(img_path, bright, sharp, contrast, out_path="temp/temp.jpg"):
+    img = Image.open(img_path)
+    dst = ImageEnhance.Brightness(img)
+    img = dst.enhance(bright)
+    dst = ImageEnhance.Sharpness(img)
+    img = dst.enhance(sharp)
+    dst = ImageEnhance.Contrast(img)
+    dst = dst.enhance(contrast)
+    dst_path = out_path
+    dst.save(dst_path)
+
+"""
+def img_enhance_brightness(img_path, factor, out_path="temp/temp.jpg"):
     img = Image.open(img_path)
     dst = ImageEnhance.Brightness(img)
     dst = dst.enhance(factor)
-    dst_path = "temp.jpg"
+    dst_path = out_path
     dst.save(dst_path)
 
 
 # dst = ImageEnhance.Sharpness(img)
-def img_enhance_sharpness(img_path, factor):
+def img_enhance_sharpness(img_path, factor, out_path="temp/temp.jpg"):
     img = Image.open(img_path)
     dst = ImageEnhance.Sharpness(img)
     dst = dst.enhance(factor)
-    dst_path = "temp.jpg"
+    dst_path = out_path
     dst.save(dst_path)
 
 
 # dst = ImageEnhance.Contrast(img)
-def img_enhance_contrast(img_path, factor):
+def img_enhance_contrast(img_path, factor, out_path="temp/temp.jpg"):
     img = Image.open(img_path)
     dst = ImageEnhance.Contrast(img)
     dst = dst.enhance(factor)
-    dst_path = "temp.jpg"
+    dst_path = out_path
     dst.save(dst_path)
-
+"""
 
 # 添加水印
 def watermark(img_path, texture="by 404", flag=0, x=60, y=20, size=20):
