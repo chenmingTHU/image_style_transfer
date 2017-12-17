@@ -2,10 +2,9 @@ from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 
 
 # 比例 a.1:1 b.4:3 c.3:4 d.16:9 e.9:16
-def img_resize(img_path, flag):
+def img_resize(img_path, width, height, flag, out_path="temp/temp.jpg"):
     # flag a.1:1 b.4:3 c.3:4 d.16:9 e.9:16
     img = Image.open(img_path)
-    width, height = img.size
     if height <= width:
         short_size = height
         long_size = width
@@ -13,18 +12,20 @@ def img_resize(img_path, flag):
         short_size = width
         long_size = height
 
-    if flag == 'a':
+    if flag == 1:
         dst = img.resize((short_size, short_size), Image.BICUBIC)
-    elif flag == 'b':
+    elif flag == 2:
         dst = img.resize((long_size, int(3/4*long_size)), Image.BICUBIC)
-    elif flag == 'c':
+    elif flag == 3:
         dst = img.resize((int(3/4*long_size), long_size), Image.BICUBIC)
-    elif flag == 'd':
+    elif flag == 4:
         dst = img.resize((long_size, int(9/16*long_size)), Image.BICUBIC)
-    elif flag == 'e':
-        dst = img.resize(int((9/16*long_size), long_size), Image.BICUBIC)
+    elif flag == 5:
+        dst = img.resize((int(9/16*long_size), long_size), Image.BICUBIC)
+    else:
+        dst = img.resize((width, height), Image.BICUBIC)
 
-    dst_path = "temp.jpg"
+    dst_path = out_path
     dst.save(dst_path)
 
 
@@ -103,11 +104,12 @@ def img_enhance_contrast(img_path, factor, out_path="temp/temp.jpg"):
 """
 
 # 添加水印
-def watermark(img_path, texture="by 404", flag=0, x=60, y=20, size=20):
+def watermark(img_path, texture="by 404", out_path="temp/temp.jpg", flag=0, x=60, y=20, size=20):
     img = Image.open(img_path)
     img = img.convert('RGBA')
     txt = Image.new('RGBA', img.size, (0, 0, 0, 0))
-    fnt = ImageFont.truetype("C:\Windows\Fonts\FTLTLT.TTF", size)
+    #fnt = ImageFont.truetype("C:\Windows\Fonts\FTLTLT.TTF", size)
+    fnt = ImageFont.truetype("~/Library/Fonts/方正仿宋简体.ttf", size)
     dst = ImageDraw.Draw(txt)
     if flag == 0:
         dst.text((txt.size[0] - x, txt.size[1] - y), texture, font=fnt, fill=(0, 0, 0, 255))
@@ -116,7 +118,7 @@ def watermark(img_path, texture="by 404", flag=0, x=60, y=20, size=20):
     dst = Image.alpha_composite(img, txt)
     dst = dst.convert('RGB')
 
-    dst_path = "temp.jpg"
+    dst_path = out_path
     dst.save(dst_path)
 
 
