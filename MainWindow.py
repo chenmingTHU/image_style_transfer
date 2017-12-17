@@ -12,11 +12,16 @@ class myTabWidget(QTabWidget):
         self.initUI()
 
     def initUI(self):
-        self.preDefined = PreDefined.myPreDefined()
-        self.userDefined = UserDefined.myUserDefined()
+        self.preDefined = PreDefined.myPreDefined(self)
+        self.userDefined = UserDefined.myUserDefined(self)
         self.history = History.myHistory()
         self.addTab(self.preDefined, 'Predefined')
         self.addTab(self.userDefined, 'User Defined')
+        self.addTab(self.history, 'History')
+    
+    def newHistory(self):
+        self.history = History.myHistory()
+        self.removeTab(2)
         self.addTab(self.history, 'History')
 
 class myMainWindow(QMainWindow):

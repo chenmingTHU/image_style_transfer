@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QGroupBox
 from PyQt5.Qt import Qt
 from PyQt5.QtGui import QPixmap, QImage
 from ImageViewer import *
+import os
+import glob
 
 class myHistory(QWidget):
 
@@ -10,11 +12,11 @@ class myHistory(QWidget):
         self.initUI()
 
     def initUI(self):
-        num = 8
-        image = "pics/default_null.png"
-        imageList = []
-        imageList.append(image)
-        self.imageList = imageList * num
+        self.imageList = []
+        self.imageList = glob.glob("result/*.jpg")
+        self.imageList.sort(key = os.path.getmtime)
+        self.imageList.reverse()
+        num = len(self.imageList)
         self.labelList = []
         self.hboxgroupList = []
         self.hboxList = []
@@ -23,6 +25,9 @@ class myHistory(QWidget):
         self.vboxLayout = QVBoxLayout()
         for i in range(num):
             self.labelList.append(myImageResult(self.imageList[i], 320, 240))
+        if num % 2 == 1:
+            self.labelList.append(myImageBlank("pics/null.png", 320, 240))
+            num += 1
         for i in range(int((num+1)/2)):
             self.hboxgroupList.append(QGroupBox())
             self.hboxList.append(QHBoxLayout())
@@ -41,3 +46,8 @@ class myHistory(QWidget):
         self.scroll.setWidgetResizable(True)
         self.vboxLayout.addWidget(self.scroll)
         self.setLayout(self.vboxLayout)
+
+    def renew(self):
+        self.setUpdatesEnabled(False)
+        self.initUI()
+        self.setUpdatesEnabled(True)

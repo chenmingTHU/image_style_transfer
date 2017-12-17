@@ -82,3 +82,20 @@ class myImageResult(QLabel):
         self.setPixmap(QPixmap.fromImage(self.image))
         self.setAlignment(Qt.AlignCenter)
         self.newWidget = newWidget(self.origImage)
+
+class myImageBlank(QLabel):
+
+    def __init__(self, image, width, height):
+        super(QLabel, self).__init__()
+        self.imagePath = image
+        self.name = getName(self.imagePath)
+        self.origImage = QImage(image)
+        self.origWidth = self.origImage.width()
+        self.origHeight = self.origImage.height()
+        self.width = width
+        self.height = height
+        self.setFixedSize(self.width, self.height)
+        self.image = self.origImage.scaled(self.width, self.height, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        self.setPixmap(QPixmap.fromImage(self.image))
+        self.setAlignment(Qt.AlignCenter)
+        self.newWidget = newWidget(self.origImage)
