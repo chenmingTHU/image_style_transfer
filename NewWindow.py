@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLabel, QWidget, QHBoxLayout, QVBoxLayout, QGroupBox, QPushButton, QSlider, QComboBox, QFileDialog, QInputDialog
+from PyQt5.QtWidgets import QLabel, QWidget, QHBoxLayout, QVBoxLayout, QGroupBox, QPushButton, QSlider, QComboBox, QFileDialog, QInputDialog, QMessageBox
 from PyQt5.QtGui import QImage, QPixmap, QGuiApplication, QPainter, QPen
 from PyQt5.QtCore import QRect
 from PyQt5.Qt import Qt
@@ -15,6 +15,8 @@ class newLabel(QLabel):
         self.x1 = 0
         self.y1 = 0
         self.flag = False
+        self.switch = False
+        self.ok = False
         self.origPath = image
         self.imagePath = image
         self.newImagePath = "temp/newImage.jpg"
@@ -60,38 +62,50 @@ class newLabel(QLabel):
     def getOrigPath(self):
         return self.origPath
 
+    def setSwitch(self, switch):
+        self.switch = switch
+
+    def setOk(self, ok):
+        self.ok = ok
+
     def mousePressEvent(self,event):
-        self.flag = True
-        self.x0 = event.x()
-        self.y0 = event.y()
+        if self.switch:
+            self.flag = True
+            self.x0 = event.x()
+            self.y0 = event.y()
 
     def mouseReleaseEvent(self,event):
-        self.flag = False
+        if self.switch:
+            self.flag = False
 
     def mouseMoveEvent(self,event):
-        if self.flag:
-            self.x1 = event.x()
-            self.y1 = event.y()
-            self.update()
+        if self.switch:
+            if self.flag:
+                self.x1 = event.x()
+                self.y1 = event.y()
+                self.update()
 
     def paintEvent(self, event):
         super().paintEvent(event)
-        rect =QRect(self.x0, self.y0, abs(self.x1-self.x0), abs(self.y1-self.y0))
-        painter = QPainter(self)
-        painter.setPen(QPen(Qt.red, 4, Qt.SolidLine))
-        painter.drawRect(rect)
-        #pqscreen  = QGuiApplication.primaryScreen()
-        #pixmap2 = pqscreen.grabWindow(1, self.x0, self.y0, abs(self.x1-self.x0), abs(self.y1-self.y0))
-        #pixmap2.save('0000.png')
-        pixmap = QPixmap.copy(self.pixmap, rect)
-        pixmap.save('0000.png')
+        if self.switch:
+            rect =QRect(self.x0, self.y0, abs(self.x1-self.x0), abs(self.y1-self.y0))
+            painter = QPainter(self)
+            painter.setPen(QPen(Qt.gray, 1, Qt.SolidLine))
+            painter.drawRect(rect)
+            #pqscreen  = QGuiApplication.primaryScreen()
+            #pixmap2 = pqscreen.grabWindow(1, self.x0, self.y0, abs(self.x1-self.x0), abs(self.y1-self.y0))
+            #pixmap2.save('0000.png')
+            pixmap = QPixmap.copy(self.pixmap, rect)
+            pixmap.save('temp/cut.jpg')
+            self.ok = True
 
 class newWidget(QWidget):
 
     def __init__(self, image):
         super(QWidget, self).__init__()
         self.label = newLabel(image)
-        self.setFixedSize(self.label.getWidth()+160, self.label.getHeight()+100)
+        self.resize(self.label.getWidth()+160, self.label.getHeight()+100)
+        self.setMinimumHeight(500)
 
         self.updownButton = QPushButton('上下翻转')
         self.updownButton.setFixedSize(80, 30)
@@ -142,9 +156,13 @@ class newWidget(QWidget):
         self.propBox.resize(80, 30)
         self.propBox.currentIndexChanged.connect(self.propChange)
 
+        self.cutButton = QPushButton('截图')
+        self.cutButton.setFixedSize(80, 30)
+        self.cutButton.clicked.connect(self.cut)
         self.markButton = QPushButton('添加水印')
         self.markButton.setFixedSize(80, 30)
         self.markButton.clicked.connect(self.mark)
+        self.markFlag = True
         self.resetButton = QPushButton('重新设置')
         self.resetButton.setFixedSize(80, 30)
         self.resetButton.clicked.connect(self.reset)
@@ -167,6 +185,7 @@ class newWidget(QWidget):
         self.vbox.addWidget(self.contrastSlider)
         self.vbox.addWidget(self.propLabel)
         self.vbox.addWidget(self.propBox)
+        self.vbox.addWidget(self.cutButton)
         self.vbox.addWidget(self.markButton)
         self.vbox.addWidget(self.resetButton)
         self.vbox.addWidget(self.saveButton)
@@ -183,7 +202,8 @@ class newWidget(QWidget):
 
     def change(self, image):
         self.label.changeImage(image)
-        self.setFixedSize(self.label.getWidth()+160, self.label.getHeight()+100)
+        self.resize(self.label.getWidth()+160, self.label.getHeight()+100)
+        self.setMinimumHeight(500)
 
     def updown(self):
         img_flip_up(self.label.getImagePath())
@@ -217,13 +237,67 @@ class newWidget(QWidget):
         self.change('temp/temp.jpg')
         img_resize(self.label.newImagePath, self.label.getOrigWidth(), self.label.getOrigHeight(), self.propBox.currentIndex(), self.label.newImagePath)
 
+    def cut(self):
+        if self.label.switch:
+            if self.label.ok:
+                self.label.setSwitch(False)
+                self.label.setOk(False)
+                self.change('temp/cut.jpg')
+                self.cutButton.setText('截图')
+                self.markButton.setText('添加水印')
+                self.markFlag = True
+                self.updownButton.setDisabled(False)
+                self.leftrightButton.setDisabled(False)
+                self.clockButton.setDisabled(False)
+                self.anticlockButton.setDisabled(False)
+                self.brightSlider.setDisabled(False)
+                self.sharpSlider.setDisabled(False)
+                self.contrastSlider.setDisabled(False)
+                self.propBox.setDisabled(False)
+                self.resetButton.setDisabled(False)
+                self.saveButton.setDisabled(False)
+            else:
+                reply = QMessageBox.warning(self, "截图失败", "请选定截图矩形框！", QMessageBox.Ok, QMessageBox.Ok)
+        else:
+            self.cutButton.setText('确定')
+            self.markButton.setText('取消')
+            self.markFlag = False
+            self.label.setSwitch(True)
+            self.updownButton.setDisabled(True)
+            self.leftrightButton.setDisabled(True)
+            self.clockButton.setDisabled(True)
+            self.anticlockButton.setDisabled(True)
+            self.brightSlider.setDisabled(True)
+            self.sharpSlider.setDisabled(True)
+            self.contrastSlider.setDisabled(True)
+            self.propBox.setDisabled(True)
+            self.resetButton.setDisabled(True)
+            self.saveButton.setDisabled(True)
+
     def mark(self):
-        text, ok = QInputDialog.getText(self, '添加水印', '请输入：')
-        if ok:
-            watermark(self.label.getImagePath(), text)
-            self.change('temp/temp.jpg')
-            watermark(self.label.newImagePath, text, self.label.newImagePath)
-            self.markButton.setDisabled(True)
+        if self.markFlag:
+            text, ok = QInputDialog.getText(self, '添加水印', '请输入：')
+            if ok:
+                watermark(self.label.getImagePath(), text)
+                self.change('temp/temp.jpg')
+                watermark(self.label.newImagePath, text, self.label.newImagePath)
+        else:
+            self.label.setSwitch(False)
+            self.label.setOk(False)
+            self.cutButton.setText('截图')
+            self.markButton.setText('添加水印')
+            self.markFlag = True
+            self.change(self.label.getImagePath())
+            self.updownButton.setDisabled(False)
+            self.leftrightButton.setDisabled(False)
+            self.clockButton.setDisabled(False)
+            self.anticlockButton.setDisabled(False)
+            self.brightSlider.setDisabled(False)
+            self.sharpSlider.setDisabled(False)
+            self.contrastSlider.setDisabled(False)
+            self.propBox.setDisabled(False)
+            self.resetButton.setDisabled(False)
+            self.saveButton.setDisabled(False)
 
     def reset(self):
         self.brightSlider.setValue(50)
@@ -231,7 +305,6 @@ class newWidget(QWidget):
         self.contrastSlider.setValue(50)
         self.propBox.setCurrentIndex(0)
         self.label.resetCopy()
-        self.markButton.setDisabled(False)
         self.change(self.label.getOrigPath())
 
     def save(self):
