@@ -235,6 +235,6 @@ class newWidget(QWidget):
         self.change(self.label.getOrigPath())
 
     def save(self):
-        fileName, ok = QFileDialog.getSaveFileName(self, 'save file', './', 'Images (*.png *.jpg)')
+        fileName, ok = QFileDialog.getSaveFileName(self, 'save file', './', 'Images ( *.jpg *.png)')
         if ok:
-            pass
+            self.label.pixmap.save(fileName)
