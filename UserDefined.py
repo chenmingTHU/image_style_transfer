@@ -17,9 +17,9 @@ class myUserDefined(QWidget):
         self.initUI()
 
     def initUI(self):
-        content = 'pics/default.png'
+        content = 'pics/default.jpg'
         self.labelContent = ImageViewer.myImageViewer(content, 320, 240)
-        style = 'pics/default_style.png'
+        style = 'pics/default_style.jpg'
         self.labelStyle = ImageViewer.myImageViewer(style, 320, 240)
         result = 'pics/default_null.jpg'
         self.labelResult = ImageViewer.myImageResult(result, 480, 360)

@@ -77,7 +77,7 @@ class myPreDefined(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.inputPic = myImageViewer("pics/default.png", 400, 300)
+        self.inputPic = myImageViewer("pics/default.jpg", 400, 300)
         self.outputPic = myImageResult("pics/default_null.jpg", 400, 300)
         self.defaultInpath = self.inputPic.getImagePath()
 
