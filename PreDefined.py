@@ -114,6 +114,8 @@ class myPreDefined(QWidget):
         
         self.progBar = QProgressBar()
         self.progBar.setFixedSize(500, 10)
+        self.progBar.setMinimum(0)
+        self.progBar.setMaximum(100)
         self.HBoxGroupBar = QGroupBox()
         self.HBoxBar = QHBoxLayout()
         self.HBoxBar.addStretch(1)
@@ -187,12 +189,16 @@ class myPreDefined(QWidget):
             self.shareButton.setDisabled(False)
             self.step = 0
             return
-        self.step += 0.7 
+        self.step += 0.01 
         if self.ps.poll() is not None:
             self.step = 100
+            self.progBar.setMinimum(0)
+            self.progBar.setMaximum(100)
+            self.progBar.setValue(0)
             self.outputPic.changeImage(self.outpath)
             self.parent.newHistory()
-        self.progBar.setValue(self.step)
+            return
+        self.progBar.setMaximum(0)
 
     def share(self):
         sender = self.sender()

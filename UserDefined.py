@@ -38,6 +38,8 @@ class myUserDefined(QWidget):
         
         self.pb = QProgressBar()
         self.pb.setFixedSize(500, 10)
+        self.pb.setMinimum(0)
+        self.pb.setMaximum(100)
 
         self.hboxgroup1 = QGroupBox()
         self.hbox1 = QHBoxLayout()
@@ -120,12 +122,16 @@ class myUserDefined(QWidget):
             self.qb2.setDisabled(False)
             self.step = 0
             return
-        self.step += 0.35
+        self.step += 0.01
         if self.ps.poll() is not None:
             self.step = 100
+            self.pb.setMinimum(0)
+            self.pb.setMaximum(100)
+            self.pb.setValue(0)
             self.labelResult.changeImage(self.outpath)
             self.parent.newHistory()
-        self.pb.setValue(self.step)
+            return
+        self.pb.setMaximum(0)
 
     def share(self):
         sender = self.sender()

@@ -371,10 +371,11 @@ QComboBox::drop-down:hover {
     background: rgba(255, 255, 255, 30);
 }
 QComboBox::down-arrow {
-    image: url(:/Black/arrowBottom);
+    color: rgb(0, 0, 0)
 }
 QComboBox::down-arrow:on {
     /**top: 1px;**/
+    color: rgb(0, 0, 0)
 }
 QComboBox QAbstractItemView {
     border: 1px solid rgb(100, 100, 100);
@@ -394,7 +395,7 @@ QComboBox QAbstractItemView::item:selected {
 QProgressBar{
     border-radius: 10px;
     text-align: center;
-    color: white;
+    color: rgb(50, 50, 50);
     background: rgb(50, 50, 50);
 }
 QProgressBar::chunk {
@@ -553,9 +554,9 @@ QSpinBox:!enabled {
 QSpinBox::up-button {
     width: 18px;
     height: 12px;
+    color: rgb(0, 0, 0)
     border-top-right-radius: 4px;
     border-left: 1px solid rgb(100, 100, 100);
-    color: rgb(0, 0, 0)
     background: rgb(50, 50, 50);
 }
 QSpinBox::up-button:!enabled {
@@ -568,9 +569,9 @@ QSpinBox::up-button:enabled:hover {
 QSpinBox::down-button {
     width: 18px;
     height: 12px;
+    color: rgb(0, 0, 0)
     border-bottom-right-radius: 4px;
     border-left: 1px solid rgb(100, 100, 100);
-    color: rgb(0, 0, 0)
     background: rgb(50, 50, 50);
 }
 QSpinBox::down-button:!enabled {
