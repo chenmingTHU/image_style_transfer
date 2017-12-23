@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QVBoxLayout, QGroupBox, QScrollArea, QPushButton, QProgressBar, QMessageBox, QInputDialog
 from PyQt5.Qt import Qt
-from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtGui import QPixmap, QImage, QFont
 from PyQt5.QtCore import QBasicTimer
 from ImageViewer import *
 from eval_pretrained import *
@@ -57,6 +57,7 @@ class preStyle(QGroupBox):
         self.label = QLabel()
         self.label.resize(20, 5)
         self.label.setAlignment(Qt.AlignCenter)
+        self.label.setFont(QFont("Roman times", 20, QFont.Bold))
         self.label.setText(self.labelText)
         self.vbox = QVBoxLayout()
         self.vbox.addWidget(self.label)
