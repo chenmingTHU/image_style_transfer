@@ -109,7 +109,7 @@ def watermark(img_path, texture="by 404", out_path="temp/temp.jpg", flag=0, x=60
     img = img.convert('RGBA')
     txt = Image.new('RGBA', img.size, (0, 0, 0, 0))
     #fnt = ImageFont.truetype("C:\Windows\Fonts\FTLTLT.TTF", size)
-    fnt = ImageFont.truetype("~/Library/Fonts/方正仿宋简体.ttf", size)
+    fnt = ImageFont.truetype("~/Library/Fonts/FZDengXian_Bold.ttf", size)
     dst = ImageDraw.Draw(txt)
     if flag == 0:
         dst.text((txt.size[0] - x, txt.size[1] - y), texture, font=fnt, fill=(0, 0, 0, 255))
