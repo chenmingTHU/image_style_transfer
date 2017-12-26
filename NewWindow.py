@@ -5,6 +5,9 @@ from PyQt5.Qt import Qt
 from ImageProcessing import *
 import shutil
 import math
+from weibo import *
+import requests
+from requests_toolbelt import MultipartEncoder
 
 class newLabel(QLabel):
 
@@ -27,6 +30,7 @@ class newLabel(QLabel):
         self.origWidth = self.width
         self.origHeight = self.height
         self.setFixedSize(self.width, self.height)
+        #self.image = self.image.scaled(800, 600, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.pixmap = QPixmap.fromImage(self.image)
         self.setPixmap(self.pixmap)
         self.setAlignment(Qt.AlignCenter)
@@ -37,6 +41,7 @@ class newLabel(QLabel):
         self.width = self.image.width()
         self.height = self.image.height()
         self.setFixedSize(self.width, self.height)
+        #self.image = self.image.scaled(800, 600, Qt.KeepAspectRatio, Qt.SmoothTransformation)
         self.pixmap = QPixmap.fromImage(self.image)
         self.setPixmap(self.pixmap)
         self.setAlignment(Qt.AlignCenter)
@@ -104,8 +109,9 @@ class newWidget(QWidget):
     def __init__(self, image):
         super(QWidget, self).__init__()
         self.label = newLabel(image)
-        self.resize(self.label.getWidth()+160, self.label.getHeight()+100)
-        self.setMinimumHeight(500)
+        #self.resize(self.label.getWidth()+160, self.label.getHeight()+100)
+        #self.setMinimumHeight(500)
+        self.setFixedSize(960, 830)
 
         self.updownButton = QPushButton('上下翻转')
         self.updownButton.setFixedSize(80, 30)
@@ -145,16 +151,16 @@ class newWidget(QWidget):
         self.contrastSlider.setValue(50)
         self.contrastSlider.valueChanged.connect(self.enhance)
 
-        self.propLabel = QLabel()
-        self.propLabel.resize(80, 20)
-        self.propLabel.setText("横纵比")
-        self.propLabel.setAlignment(Qt.AlignLeft)
-        self.propBox = QComboBox()
-        self.propBox.setEditable(False)
-        sizeList = ['原比例', '1:1', '4:3', '3:4', '16:9', '9:16']
-        self.propBox.addItems(sizeList)
-        self.propBox.resize(80, 30)
-        self.propBox.currentIndexChanged.connect(self.propChange)
+        #self.propLabel = QLabel()
+        #self.propLabel.resize(80, 20)
+        #self.propLabel.setText("横纵比")
+        #self.propLabel.setAlignment(Qt.AlignLeft)
+        #self.propBox = QComboBox()
+        #self.propBox.setEditable(False)
+        #sizeList = ['原比例', '1:1', '4:3', '3:4', '16:9', '9:16']
+        #self.propBox.addItems(sizeList)
+        #self.propBox.resize(80, 30)
+        #self.propBox.currentIndexChanged.connect(self.propChange)
 
         self.cutButton = QPushButton('截图')
         self.cutButton.setFixedSize(80, 30)
@@ -169,6 +175,9 @@ class newWidget(QWidget):
         self.saveButton = QPushButton('保存')
         self.saveButton.setFixedSize(80, 30)
         self.saveButton.clicked.connect(self.save)
+        self.shareButton = QPushButton('分享')
+        self.shareButton.setFixedSize(80, 30)
+        self.shareButton.clicked.connect(self.share)
 
         self.vboxgroup = QGroupBox()
         self.vbox = QVBoxLayout()
@@ -183,12 +192,13 @@ class newWidget(QWidget):
         self.vbox.addWidget(self.sharpSlider)
         self.vbox.addWidget(self.contrastLabel)
         self.vbox.addWidget(self.contrastSlider)
-        self.vbox.addWidget(self.propLabel)
-        self.vbox.addWidget(self.propBox)
+        #self.vbox.addWidget(self.propLabel)
+        #self.vbox.addWidget(self.propBox)
         self.vbox.addWidget(self.cutButton)
         self.vbox.addWidget(self.markButton)
         self.vbox.addWidget(self.resetButton)
         self.vbox.addWidget(self.saveButton)
+        self.vbox.addWidget(self.shareButton)
         self.vbox.addStretch(1)
         self.vboxgroup.setLayout(self.vbox)
 
@@ -197,13 +207,13 @@ class newWidget(QWidget):
         self.hbox.addWidget(self.label)
         self.hbox.addStretch(1)
         self.hbox.addWidget(self.vboxgroup)
-        self.hbox.addStretch(1)
+        #self.hbox.addStretch(1)
         self.setLayout(self.hbox)
 
     def change(self, image):
         self.label.changeImage(image)
-        self.resize(self.label.getWidth()+160, self.label.getHeight()+100)
-        self.setMinimumHeight(500)
+        #self.resize(self.label.getWidth()+160, self.label.getHeight()+100)
+        #self.setMinimumHeight(500)
 
     def updown(self):
         img_flip_up(self.label.getImagePath())
@@ -243,6 +253,7 @@ class newWidget(QWidget):
                 self.label.setSwitch(False)
                 self.label.setOk(False)
                 self.change('temp/cut.jpg')
+                shutil.copy('temp/cut.jpg', 'temp/newImage.jpg')
                 self.cutButton.setText('截图')
                 self.markButton.setText('添加水印')
                 self.markFlag = True
@@ -270,7 +281,7 @@ class newWidget(QWidget):
             self.brightSlider.setDisabled(True)
             self.sharpSlider.setDisabled(True)
             self.contrastSlider.setDisabled(True)
-            self.propBox.setDisabled(True)
+            #self.propBox.setDisabled(True)
             self.resetButton.setDisabled(True)
             self.saveButton.setDisabled(True)
 
@@ -278,9 +289,9 @@ class newWidget(QWidget):
         if self.markFlag:
             text, ok = QInputDialog.getText(self, '添加水印', '请输入：')
             if ok:
-                watermark(self.label.getImagePath(), text)
+                watermark(self.label.getImagePath(), text, "temp/temp.jpg", 1, 20*len(text)+10)
                 self.change('temp/temp.jpg')
-                watermark(self.label.newImagePath, text, self.label.newImagePath)
+                watermark(self.label.newImagePath, text, self.label.newImagePath, 1, 20*len(text)+10)
         else:
             self.label.setSwitch(False)
             self.label.setOk(False)
@@ -295,7 +306,7 @@ class newWidget(QWidget):
             self.brightSlider.setDisabled(False)
             self.sharpSlider.setDisabled(False)
             self.contrastSlider.setDisabled(False)
-            self.propBox.setDisabled(False)
+            #self.propBox.setDisabled(False)
             self.resetButton.setDisabled(False)
             self.saveButton.setDisabled(False)
 
@@ -303,7 +314,7 @@ class newWidget(QWidget):
         self.brightSlider.setValue(50)
         self.sharpSlider.setValue(50)
         self.contrastSlider.setValue(50)
-        self.propBox.setCurrentIndex(0)
+        #self.propBox.setCurrentIndex(0)
         self.label.resetCopy()
         self.change(self.label.getOrigPath())
 
@@ -311,3 +322,27 @@ class newWidget(QWidget):
         fileName, ok = QFileDialog.getSaveFileName(self, 'save file', './', 'Images ( *.jpg *.png)')
         if ok:
             self.label.pixmap.save(fileName)
+
+    def share(self):
+        aFile = open("token", "r")
+        aToken = aFile.read()
+        aToken = aToken.strip('\n')
+        aFile.close()
+        if aToken == "0":
+            openBrowser()
+            code, ok1 = QInputDialog.getText(self, '关联微博账号', '请输入url中的code：')
+            if ok1:
+                ok2, token = get_token(code)
+                if ok2:
+                    tokenFile = open("token", "w")
+                    tokenFile.write(token)
+                    tokenFile.close()
+                    text, ok3 = QInputDialog.getText(self, '分享到微博', '请输入您想说的话：')
+                    if ok3:
+                         post_a_pic(self.label.getImagePath(), token, text)
+                else:
+                    reply = QMessageBox.warning(self, "错误", "请输入正确的code！", QMessageBox.Ok, QMessageBox.Ok)
+        else:
+            text, ok3 = QInputDialog.getText(self, '分享到微博', '请输入您想说的话：')
+            if ok3:
+                post_a_pic(self.label.getImagePath(), aToken, text)
