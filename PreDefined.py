@@ -151,10 +151,10 @@ class myPreDefined(QWidget):
     def transfer(self):
         global flag
         if flag == 0:
-            reply = QMessageBox.warning(self, "ERROR", "Please choose a style!", QMessageBox.Ok, QMessageBox.Ok)
+            reply = QMessageBox.warning(self, "错误", "请选择一种风格！", QMessageBox.Ok, QMessageBox.Ok)
             return
         if self.inputPic.getImagePath() == self.defaultInpath:
-            reply = QMessageBox.warning(self, "ERROR", "Please choose a input image!", QMessageBox.Ok, QMessageBox.Ok)
+            reply = QMessageBox.warning(self, "错误", "请选择内容图片！", QMessageBox.Ok, QMessageBox.Ok)
             return
         if not self.timer.isActive():
             self.inpath = self.inputPic.getImagePath()

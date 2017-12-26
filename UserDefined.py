@@ -89,10 +89,10 @@ class myUserDefined(QWidget):
 
     def transfer(self):
         if self.labelContent.getImagePath() == self.defaultInpath:
-            reply = QMessageBox.warning(self, "ERROR", "Please choose a input image!", QMessageBox.Ok, QMessageBox.Ok)
+            reply = QMessageBox.warning(self, "错误", "请选择内容图片！", QMessageBox.Ok, QMessageBox.Ok)
             return
         if self.labelStyle.getImagePath() == self.defaultStylepath:
-            reply = QMessageBox.warning(self, "ERROR", "Please choose a style image!", QMessageBox.Ok, QMessageBox.Ok)
+            reply = QMessageBox.warning(self, "错误", "请选择风格图片！", QMessageBox.Ok, QMessageBox.Ok)
             return
         if not self.timer.isActive():
             self.inpath = self.labelContent.getImagePath()
