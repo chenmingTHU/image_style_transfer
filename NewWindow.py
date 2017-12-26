@@ -264,7 +264,7 @@ class newWidget(QWidget):
                 self.brightSlider.setDisabled(False)
                 self.sharpSlider.setDisabled(False)
                 self.contrastSlider.setDisabled(False)
-                self.propBox.setDisabled(False)
+                #self.propBox.setDisabled(False)
                 self.resetButton.setDisabled(False)
                 self.saveButton.setDisabled(False)
             else:
