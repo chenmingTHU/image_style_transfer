@@ -47,32 +47,25 @@ class picLabel(QLabel):
 
 class preStyle(QGroupBox):
 
-    def __init__(self, parent, index, labelText = "youhua", picName = "default.png", width = 200, height = 200):
+    def __init__(self, parent, index, picName = "default.png", width = 200, height = 200):
         super(QGroupBox, self).__init__()
         self.prevPic = picLabel(parent, index, picName, width, height)
-        self.labelText = labelText
         self.initUI()
 
     def initUI(self):
-        self.label = QLabel()
-        self.label.resize(20, 5)
-        self.label.setAlignment(Qt.AlignCenter)
-        self.label.setFont(QFont("Roman times", 20, QFont.Bold))
-        self.label.setText(self.labelText)
         self.vbox = QVBoxLayout()
-        self.vbox.addWidget(self.label)
         self.vbox.addStretch(1)
         self.vbox.addWidget(self.prevPic)
+        self.vbox.addStretch(1)
         self.setLayout(self.vbox)
 
 class myPreDefined(QWidget):
 
     def __init__(self, parent):
         super(QWidget, self).__init__()
-        self.style = ["style1", "style2", "style3", "style4", "style5", "style6", "style7", "style8", "style9"]
         self.picPath = ["pics/style1.jpg", "pics/style2.jpg", "pics/style3.jpg", "pics/style4.jpg", "pics/style5.jpg", "pics/style6.jpg", "pics/style7.jpg", "pics/style8.jpg", "pics/style9.jpg"]
         self.stylePath = ["pretrained_model/style1", "pretrained_model/style2", "pretrained_model/style3", "pretrained_model/style4", "pretrained_model/style5", "pretrained_model/style6", "pretrained_model/style7", "pretrained_model/style8", "pretrained_model/style9"]
-        self.nStyle = len(self.style)
+        self.nStyle = len(self.picPath)
         self.parent = parent
         self.initUI()
 
@@ -83,7 +76,7 @@ class myPreDefined(QWidget):
 
         self.VBoxGroups = []
         for i in range(self.nStyle):
-            self.VBoxGroups.append(preStyle(self, i + 1, self.style[i], self.picPath[i], 200, 200))
+            self.VBoxGroups.append(preStyle(self, i + 1, self.picPath[i], 200, 200))
 
         self.HBoxGroupScroll = QGroupBox()
         self.HBox1 = QHBoxLayout()
@@ -93,11 +86,13 @@ class myPreDefined(QWidget):
             self.HBox1.addStretch(1)
         self.HBoxGroupScroll.setLayout(self.HBox1)
 
-        self.transButton = QPushButton('Transfer')
-        self.transButton.setFixedSize(80, 20)
+        self.transButton = QPushButton('转换')
+        self.transButton.setFont(QFont("Roman times", 20, QFont.Bold))
+        self.transButton.setFixedSize(160, 40)
         self.transButton.clicked.connect(self.transfer)
-        self.shareButton = QPushButton('Share')
-        self.shareButton.setFixedSize(80, 20)
+        self.shareButton = QPushButton('分享')
+        self.shareButton.setFont(QFont("Roman times", 20, QFont.Bold))
+        self.shareButton.setFixedSize(160, 40)
         self.shareButton.clicked.connect(self.share)
         self.shareButton.setDisabled(True)
         self.timer = QBasicTimer()

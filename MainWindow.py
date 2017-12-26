@@ -15,14 +15,14 @@ class myTabWidget(QTabWidget):
         self.preDefined = PreDefined.myPreDefined(self)
         self.userDefined = UserDefined.myUserDefined(self)
         self.history = History.myHistory()
-        self.addTab(self.preDefined, 'Predefined')
-        self.addTab(self.userDefined, 'User Defined')
-        self.addTab(self.history, 'History')
+        self.addTab(self.preDefined, '预设风格')
+        self.addTab(self.userDefined, '自定义风格')
+        self.addTab(self.history, '历史记录')
     
     def newHistory(self):
         self.history = History.myHistory()
         self.removeTab(2)
-        self.addTab(self.history, 'History')
+        self.addTab(self.history, '历史记录')
 
 class myMainWindow(QMainWindow):
 

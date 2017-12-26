@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QPushButton, QProgressBar, QLabel, QHBoxLayout, QVBoxLayout, QGroupBox, QMessageBox, QSpinBox, QSlider, QInputDialog
 import ImageViewer
 from PyQt5.Qt import Qt
+from PyQt5.QtGui import QFont
 from PyQt5.QtCore import QBasicTimer
 from eval_arbitrary import *
 import subprocess
@@ -26,11 +27,13 @@ class myUserDefined(QWidget):
         self.defaultInpath = self.labelContent.getImagePath()
         self.defaultStylepath = self.labelStyle.getImagePath()
 
-        self.qb1 = QPushButton('Transfer')
-        self.qb1.setFixedSize(80, 20)
+        self.qb1 = QPushButton('转换')
+        self.qb1.setFixedSize(160, 40)
+        self.qb1.setFont(QFont("Roman times", 20, QFont.Bold))
         self.qb1.clicked.connect(self.transfer)
-        self.qb2 = QPushButton('Share')
-        self.qb2.setFixedSize(80, 20)
+        self.qb2 = QPushButton('分享')
+        self.qb2.setFixedSize(160, 40)
+        self.qb2.setFont(QFont("Roman times", 20, QFont.Bold))
         self.qb2.setDisabled(True)
         self.qb2.clicked.connect(self.share)
         self.timer = QBasicTimer()
