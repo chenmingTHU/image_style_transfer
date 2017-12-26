@@ -2,8 +2,7 @@ import requests
 import webbrowser
 from requests_toolbelt import MultipartEncoder
 
-
-def get_token():
+def openBrowser():
 
     client_id = "2407786039"  # App Key
     client_secret = "90d4cd8a572020ca22999daf75af3468"  # App Secret
@@ -13,8 +12,16 @@ def get_token():
 
     webbrowser.open("{}?client_id={}&redirect_uri={}&response_type=code".format(url_authorize, client_id, redirect_uri), new=0, autoraise=True)
 
-    # TODO: 弹出对话框 提示用户输入返回的url中的code
-    code = input("Input the code\n")
+def get_token(code0):
+
+    #code = input("Input the code\n")
+    code = code0
+
+    client_id = "2407786039"  # App Key
+    client_secret = "90d4cd8a572020ca22999daf75af3468"  # App Secret
+    url_authorize = "https://api.weibo.com/oauth2/authorize"
+    url_get_token = "https://api.weibo.com/oauth2/access_token"
+    redirect_uri = "https://api.weibo.com/oauth2/default.html"
 
     payload = {
                 "client_id": client_id,
@@ -25,10 +32,14 @@ def get_token():
                  }
 
     r = requests.post(url_get_token, data=payload)
-    return r.json()['access_token']
+    if 'access_token' in r.json().keys():
+        return (True, r.json()['access_token'])
+    else:
+        return (False, "0")
+    #return r.json()['access_token']
 
 
-def post_a_pic(picture, news="from ImageStyleTrans", token="2.00Lksp7GhIpwcCddee6e82e70NcpaD"):
+def post_a_pic(picture, token, news="from ImageStyleTrans"):
 
     url_share = "https://api.weibo.com/2/statuses/share.json"
     access_token = token

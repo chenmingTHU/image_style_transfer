@@ -196,8 +196,25 @@ class myPreDefined(QWidget):
         self.progBar.setMaximum(0)
 
     def share(self):
-        sender = self.sender()
-        if sender == self.shareButton:
-            text, ok = QInputDialog.getText(self, '分享到微博', '请输入您想说的话：')
-            if ok:
-                post_a_pic(self.outpath, text)
+        aFile = open("token", "r")
+        aToken = aFile.read()
+        aToken = aToken.strip('\n')
+        aFile.close()
+        if aToken == "0":
+            openBrowser()
+            code, ok1 = QInputDialog.getText(self, '关联微博账号', '请输入url中的code：')
+            if ok1:
+                ok2, token = get_token(code)
+                if ok2:
+                    tokenFile = open("token", "w")
+                    tokenFile.write(token)
+                    tokenFile.close()
+                    text, ok3 = QInputDialog.getText(self, '分享到微博', '请输入您想说的话：')
+                    if ok3:
+                         post_a_pic(self.outpath, token, text)
+                else:
+                    reply = QMessageBox.warning(self, "错误", "请输入正确的code！", QMessageBox.Ok, QMessageBox.Ok)
+        else:
+            text, ok3 = QInputDialog.getText(self, '分享到微博', '请输入您想说的话：')
+            if ok3:
+                post_a_pic(self.outpath, aToken, text)
