@@ -58,7 +58,7 @@ Baidu Netdist Link: https://pan.baidu.com/s/1kVSqt3x Password: snpq
 
 `python3 MainWindow.py`
 
-**Attention**: Dependencies: `PyQt5`, `Tensorflow`, `Pillow`
+**Dependencies**: `PyQt5`, `Tensorflow`, `Pillow`
 
 **Usage on Linux is not tested yet**
 
