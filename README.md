@@ -1,7 +1,11 @@
 # Image Style Transfer
 一个图像风格转换软件
 
+An image style transfer software
+
 小组成员：刘昊伟(组长)，陈铭，刘晓明，许立，张舒楠
+
+Members: Howie Lau, Ming Chen, Xiaoming Liu, Li Xu, Shunan Zhang
 
 ## 简介
 这是一个转换图像风格的软件，主要提供以下两种转换风格：
@@ -12,22 +16,50 @@
 
 任意风格转换则需要用户自定义输入风格图片，然后将内容图片转换为风格图片上的风格，时间较慢。
 
+## Introduction
+
+This software can change the style of an image with 2 main functions:
++ Predefined style transfer
++ Arbitary style transfer
+
+Predefined style transfer is similar to image filter, which is changing the image style through a pre-trained model with fast speed.
+
+Arbitary style transfer need the user to specify the style image, and transfer the content image with lower speed.
+
 ## 使用
+
+受GitHub文件上传大小限制，无法将预训练好的模型上传到这里。
+
+完整软件大小约2GB，同时我们也提供了只有任意风格转换的程序，大小约1GB
+
+百度网盘链接: https://pan.baidu.com/s/1kVSqt3x  密码:snpq
+
 直接下载后运行。
 
-`git clone https://github.com/zsn0000000/image_style_transfer.git`
+`cd /path/to/image_style_transfer`
 
 `python3 MainWindow.py`
 
 **注意**：使用本软件需要安装`PyQt5`，`Tensorflow`和`Pillow`。
 
-暂不支持Windows。
+**暂未测试Linux的使用**
 
-**目前已训练好的模型由于太大无法上传到GitHub，暂时无法使用。**
+**Windows的使用方法待添加**
 
-## 分工
-核心算法由陈铭编写，GUI由许立和张舒楠编写。
+## Usage
 
-所有工作均在线下完成，张舒楠于12月4日将完整的代码上传到GitHub，在此之前GitHub并不能反映实际工作情况。
+Limited by the file storage of GitHub, we can't upload the pre-trained model here.
 
-本说明由张舒楠草拟初稿。
+The whole package is about 2GB, and we also provide arbitary-only package, which is about 1GB.
+
+Baidu Netdist Link: https://pan.baidu.com/s/1kVSqt3x Password: snpq
+
+`cd /path/to/image_style_transfer`
+
+`python3 MainWindow.py`
+
+**Attention**: Dependencies: `PyQt5`, `Tensorflow`, `Pillow`
+
+**Usage on Linux is not tested yet**
+
+**Usage on Windows to be added**
