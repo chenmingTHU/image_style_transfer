@@ -28,9 +28,11 @@ Arbitary style transfer need the user to specify the style image, and transfer t
 
 ## 使用
 
+本程序暂只支持Python3。
+
 受GitHub文件上传大小限制，无法将预训练好的模型上传到这里。
 
-完整软件大小约2GB，同时我们也提供了只有任意风格转换的程序，大小约1GB
+完整软件大小约2GB，同时我们也提供了只有任意风格转换的程序，大小约1GB。
 
 百度网盘链接: https://pan.baidu.com/s/1kVSqt3x  密码:snpq
 
@@ -46,7 +48,11 @@ Arbitary style transfer need the user to specify the style image, and transfer t
 
 **Windows的使用方法待添加**
 
+**若要在Windows上使用，需要将`PreDefined.py`中179行和`UserDefined.py`中118行命令的`python3`改为`python`。**
+
 ## Usage
+
+This software only supports Python3 for now.
 
 Limited by the file storage of GitHub, we can't upload the pre-trained model here.
 
@@ -63,3 +69,5 @@ Baidu Netdist Link: https://pan.baidu.com/s/1kVSqt3x Password: snpq
 **Usage on Linux is not tested yet**
 
 **Usage on Windows to be added**
+
+**If you are using it on Windows, you need to change the command `python3` to `python` on line 179 of `PreDefined.py` and line 118 of `UserDefined.py`.**
