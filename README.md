@@ -58,7 +58,7 @@ Limited by the file storage of GitHub, we can't upload the pre-trained model her
 
 The whole package is about 2GB, and we also provide arbitary-only package, which is about 1GB.
 
-Baidu Netdist Link: https://pan.baidu.com/s/1kVSqt3x Password: snpq
+Baidu Netdisk Link: https://pan.baidu.com/s/1kVSqt3x Password: snpq
 
 `cd /path/to/image_style_transfer`
 
