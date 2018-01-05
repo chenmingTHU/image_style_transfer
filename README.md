@@ -46,9 +46,11 @@ Arbitary style transfer need the user to specify the style image, and transfer t
 
 **暂未测试Linux的使用**
 
-**Windows的使用方法待添加**
+在Windows下使用Python编译器(如PyCharm)直接运行`MainWindow.py`即可。
 
-**若要在Windows上使用，需要将`PreDefined.py`中179行和`UserDefined.py`中118行命令的`python3`改为`python`。**
+**若要在Windows上使用，需要将`PreDefined.py`中179行和`UserDefined.py`中118行命令的`python3`改为`python`，同时将`MainWindow.py`第40行改为：**
+
+`with open("template.qss", encoding="UTF-8") as file:`
 
 ## Usage
 
@@ -68,6 +70,8 @@ Baidu Netdisk Link: https://pan.baidu.com/s/1kVSqt3x Password: snpq
 
 **Usage on Linux is not tested yet**
 
-**Usage on Windows to be added**
+If used on Windows, execute `MainWindow.py` with Python complier (PyCharm, etc.).
 
-**If you are using it on Windows, you need to change the command `python3` to `python` on line 179 of `PreDefined.py` and line 118 of `UserDefined.py`.**
+**If you are using it on Windows, you need to change the command `python3` to `python` on line 179 of `PreDefined.py` and line 118 of `UserDefined.py`, and change line 40 of `MainWindow.py` to:**
+
+`with open("template.qss", encoding="UTF-8") as file:`
